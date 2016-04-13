@@ -86,4 +86,19 @@ class ContactList
 		end
 	end
 
+	def add_phone(id)
+		contact = Contact.find(id)
+		unless contact
+			puts "Contact not found!"
+			return
+		end
+		puts "Adding phone number for #{contact.id}: #{contact.name} (#{contact.email})"
+		puts "Enter type of phone:"
+		type = STDIN.gets.chomp
+		puts "Enter phone number (exactly 10 digits, no spaces):"
+		number = STDIN.gets.chomp
+		phone = Phone.new(contact.id, type, number)
+		phone.save
+	end
+
 end

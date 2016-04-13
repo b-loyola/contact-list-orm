@@ -31,7 +31,7 @@ class Contact
 
   def self.all
     # Returns an Array of Contact instances made from the data in database.
-    @@conn.exec('SELECT * FROM contacts;').inject([]) do |list, contact|
+    @@conn.exec('SELECT * FROM contacts ORDER BY id;').inject([]) do |list, contact|
       contact = Contact.new(contact["name"], contact["email"], contact["id"])
       list << contact
     end
