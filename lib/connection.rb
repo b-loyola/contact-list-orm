@@ -4,7 +4,7 @@ class Connection
     @@conn = PG::Connection.new(host: 'localhost', dbname: 'contactlist', user: 'development', password: 'development')
   end
 	
-	def conn
+	def self.conn
 		@@conn
 	end
 

@@ -97,8 +97,36 @@ class ContactList
 		type = STDIN.gets.chomp
 		puts "Enter phone number (exactly 10 digits, no spaces):"
 		number = STDIN.gets.chomp
+		unless number.length == 10
+			puts "Phone number must be exactly 10 digits!"
+			return
+		end
 		phone = Phone.new(contact.id, type, number)
 		phone.save
+	end
+
+	def find_phones(id)
+		contact = Contact.find(id)
+		unless contact
+			puts "Contact not found!"
+			return
+		end
+		list_phones(contact, Phone.find(contact.id))
+	end
+
+	def list_phones(contact, phones_to_list)
+		puts "#{contact.id}: #{contact.name} (#{contact.email})"
+		puts "No phone numbers for this contact" if phones_to_list.empty?
+		phones_to_list.each do |phone|
+			puts "#{phone.type}: #{phone.number}"
+		end
+	end
+
+	def all_phones
+		contacts = Contact.all
+		contacts.each do |contact|
+			list_phones(contact, Phone.find(contact.id))
+		end
 	end
 
 end

@@ -3,13 +3,13 @@
 require_relative 'lib/contact'
 require_relative 'lib/contact_list'
 require_relative 'lib/phone'
+require_relative 'lib/connection'
 
 
 command = String.new
 option = String.new
 
-Contact.connect
-Phone.connect
+Connection.connect
 
 if ARGV.empty?
 	puts "Here is a list of available commands:"
@@ -19,8 +19,8 @@ if ARGV.empty?
 	puts "\tsearch 'term'   - Search contacts"
 	puts "\tupdate 'id'     - update contact"
 	puts "\tdelete 'id'     - delete contact"
-	puts "\tphone 'id'      - add phone number"
-	puts "\tlistphones 'id' - add phone number"
+	puts "\taddphone 'id'   - add phone number"
+	puts "\tphones 'id'     - list phone numbers (enter * as id for all numbers)"
 	command, option = gets.chomp.split(' ')
 else
 	command = ARGV[0]
@@ -40,8 +40,10 @@ when "update"
 	ContactList.new.update_contact(option)
 when "delete"
 	ContactList.new.delete_contact(option)
-when "phone"
+when "addphone"
 	ContactList.new.add_phone(option)
+when 'phones'
+	option == '*' ? ContactList.new.all_phones : ContactList.new.find_phones(option)	
 else
 	puts "Invalid command"
 end
